@@ -1,5 +1,5 @@
 # NEAT
-Just a NEAT library writen in C++
+NEAT library writen in C (and some C++)
 
 In the NEAT folder there are 3 files:
 	
