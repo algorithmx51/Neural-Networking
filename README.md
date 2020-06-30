@@ -1,7 +1,7 @@
 # NEAT
 NEAT library writen in C (and some C++)
 
-In the NEAT folder there are 3 files:
+In the NEAT branch there are 3 files:
 	
 # neat2.h
 
