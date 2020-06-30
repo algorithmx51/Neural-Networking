@@ -5,7 +5,8 @@ In the NEAT folder there are 3 files:
 	
 # neat2.h
 
-This is the main header file, you can just include it to your code
+This is the main header file, you can include it to your code by typing #include"neat2.h"
+
 Note : for now , the only supported OS is Windows ( Tested Versions : Windows 10 ) and you must have the graphics.h library
 
 # neat.h
