@@ -15,7 +15,7 @@ This is an old version of the neat2.h library , just included for testing , debu
 
 # headless-neat2.h
 
-This is a copy of neat2.h that is used by systems that do not support graphics.h library or are linux machines
+This is a copy of neat2.h that is used by systems that do not support graphics.h library
 
 -------------------------------------------------------------
 
