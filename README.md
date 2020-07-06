@@ -7,7 +7,7 @@ In the NEAT branch there are 3 files:
 
 This is the main header file, you can include it to your code by typing #include"neat2.h"
 
-Note : for now , the only supported OS is Windows ( Tested Versions : Windows 10 , Kali Linux 5.6.0) and you must have the graphics.h library
+Note : (Tested Versions : Windows 10 , Kali Linux 5.6.0) You have to include the graphics.h library into your project
 
 # neat.h
 
