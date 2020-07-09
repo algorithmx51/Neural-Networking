@@ -2,8 +2,8 @@
   *
   * Official Copy of NEAT2.h library
   * Copywrite (c) Algorithm X, Greece
-  * Last edit : 08/07/2020
-  * Description : improved drawNet for Linux
+  * Last edit : 09/07/2020
+  * Description : fixed if statement in drawNet function for linux
   *
   *
   **/
