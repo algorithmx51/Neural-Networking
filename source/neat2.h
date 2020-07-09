@@ -492,7 +492,7 @@ void drawNet(network *Net, int x1, int y1, int x2, int y2)
 
     char buffer[400];
 
-    if(x1 > xmax || x2 > xmax || y1 > ymax || y2 > ymax)
+    if(x1 > xmax || x2 > xmax || y1 > ymax || y2 > ymax || x1 < 0 || x2 < 0 || y1 < 0 || y2 < 0)
         return;
 
     int maxx = x2 - x1, maxy = y2 - y1;
