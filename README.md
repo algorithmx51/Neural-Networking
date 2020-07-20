@@ -21,4 +21,4 @@ This is a copy of neat2.h that is used by systems that do not support graphics.h
 
 Copyright (c) : Algorithm X
 
-Last commit : 09/07/2020
+Last commit : 21/07/2020
