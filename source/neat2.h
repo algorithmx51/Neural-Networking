@@ -2,8 +2,8 @@
   *
   * Official Copy of NEAT2.h library
   * Copywrite (c) Algorithm X, Greece
-  * Last edit : 09/07/2020
-  * Description : fixed if statement in drawNet function for linux
+  * Last edit : 21/07/2020
+  * Description : fixed printNet function, so it only prints to stdout
   *
   *
   **/
@@ -244,61 +244,61 @@ void feedforward(network *Net)
 void printNet(network *Net, int detailed)
 {
 
-    if(detailed) printf("----------------------------------------\n");
+    if(detailed) fprintf(stdout, "----------------------------------------\n");
 
     if(detailed)
     {
 
-        printf("In Net 0x%x\n", Net);
+        fprintf(stdout, "In Net 0x%x\n", Net);
 
         for(int j = 0; j < Net->nmap[0]; j++)
         {
-            printf("Net->l[0].n[%d].output = %f\n", j, Net->l[0].n[j].output);
-            printf("Net->l[0].n[%d].number of connections = 1\n", j);
-            printf("Net->l[0].n[%d].connect[0].weight = 1\n", j);
+            fprintf(stdout, "Net->l[0].n[%d].output = %f\n", j, Net->l[0].n[j].output);
+            fprintf(stdout, "Net->l[0].n[%d].number of connections = 1\n", j);
+            fprintf(stdout, "Net->l[0].n[%d].connect[0].weight = 1\n", j);
         }
 
         for(int i = 1 ; i < Net->layers-1; i++)
         {
-            printf("----------------------------------------\n");
+            fprintf(stdout, "----------------------------------------\n");
 
             for(int j = 0; j < Net->nmap[i]; j++)
             {
-                printf("Net->l[%d].n[%d].sum = %f\n", i, j, Net->l[i].n[j].sum);
-                printf("Net->l[%d].n[%d].output = %f\n", i, j, Net->l[i].n[j].output);
-                printf("Net->l[%d].n[%d].number of connections = %d\n", i, j, Net->l[i].n[j].num_connections);
+                fprintf(stdout, "Net->l[%d].n[%d].sum = %f\n", i, j, Net->l[i].n[j].sum);
+                fprintf(stdout, "Net->l[%d].n[%d].output = %f\n", i, j, Net->l[i].n[j].output);
+                fprintf(stdout, "Net->l[%d].n[%d].number of connections = %d\n", i, j, Net->l[i].n[j].num_connections);
 
                 for(int k = 0; k < Net->l[i].n[j].num_connections; k++)
                 {
-                    printf("Net->l[%d].n[%d].connect[%d].weight = %f\n", i, j, k, Net->l[i].n[j].connect[k].weight);
-                /*    printf("Net->l[%d].n[%d].connect[%d].n->sum = %f\n", i, j, k, Net->l[i].n[j].connect[k].n->sum); */
-                    printf("Net->l[%d].n[%d].connect[%d].n->output = %f\n", i, j, k, Net->l[i].n[j].connect[k].n->output);
+                    fprintf(stdout, "Net->l[%d].n[%d].connect[%d].weight = %f\n", i, j, k, Net->l[i].n[j].connect[k].weight);
+                /*    fprintf(stdout, "Net->l[%d].n[%d].connect[%d].n->sum = %f\n", i, j, k, Net->l[i].n[j].connect[k].n->sum); */
+                    fprintf(stdout,"Net->l[%d].n[%d].connect[%d].n->output = %f\n", i, j, k, Net->l[i].n[j].connect[k].n->output);
                 }
             }
         }
     }
 
-    printf("----------------------------------------\n");
+    fprintf(stdout, "----------------------------------------\n");
 
-    if(!detailed) printf("In Net 0x%x\n", Net);
+    if(!detailed) fprintf(stdout, "In Net 0x%x\n", Net);
 
     for(int i = 0; i < Net->nmap[Net->layers-1]; i++)
     {
-        printf("Net->l[%d].n[%d].sum = %f\n", Net->layers-1, i, Net->l[Net->layers-1].n[i].sum);
-        printf("Net->l[%d].n[%d].output = %f\n", Net->layers-1, i, Net->l[Net->layers-1].n[i].output);
+        fprintf(stdout, "Net->l[%d].n[%d].sum = %f\n", Net->layers-1, i, Net->l[Net->layers-1].n[i].sum);
+        fprintf(stdout, "Net->l[%d].n[%d].output = %f\n", Net->layers-1, i, Net->l[Net->layers-1].n[i].output);
 
-        printf("Net->l[%d].n[%d].number of connections = %d\n", Net->layers-1, i, Net->l[Net->layers-1].n[i].num_connections);
+        fprintf(stdout, "Net->l[%d].n[%d].number of connections = %d\n", Net->layers-1, i, Net->l[Net->layers-1].n[i].num_connections);
 
         for(int k = 0; k < Net->l[Net->layers-1].n[i].num_connections; k++)
         {
-            printf("Net->l[%d].n[%d].connect[%d].weight = %f\n", Net->layers-1, i, k, Net->l[Net->layers-1].n[i].connect[k].weight);
+            fprintf(stdout, "Net->l[%d].n[%d].connect[%d].weight = %f\n", Net->layers-1, i, k, Net->l[Net->layers-1].n[i].connect[k].weight);
         /*    printf("Net->l[%d].n[%d].connect[%d].n->sum = %f\n", Net->layers-1, i, k, Net->l[Net->layers-1].n[i].connect[k].n->sum); */
-            printf("Net->l[%d].n[%d].connect[%d].n->output = %f\n", Net->layers-1, i, k, Net->l[Net->layers-1].n[i].connect[k].n->output);
+            fprintf(stdout, "Net->l[%d].n[%d].connect[%d].n->output = %f\n", Net->layers-1, i, k, Net->l[Net->layers-1].n[i].connect[k].n->output);
         }
     }
 
 
-    printf("----------------------------------------\n");
+    fprintf(stdout, "----------------------------------------\n");
 }
 
 /// =======================================================================================================
