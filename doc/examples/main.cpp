@@ -1,7 +1,8 @@
-#include<stdio.h>
-#include<stdlib.h>
-#include<conio.h>
-#include<graphics.h>
+/**
+  * Example project using the neat.h library
+  * Copywrite (c) Algorithm X, algortithmx51 - 1/08/2020
+  *
+  **/
 
 #include"neat2.h"
 
