@@ -2,9 +2,11 @@
   * Example project using the neat.h library
   * Copywrite (c) Algorithm X, algortithmx51 - 1/08/2020
   *
+  * Flappy Bird using NEAT Implementation project (c) Algorithm X
+  *
   **/
 
-#include"neat2.h"
+#include"neat.h"
 
 #define speed -2 // the speed of the birds
 #define pipes 4 // the number of the pipes
