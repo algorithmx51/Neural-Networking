@@ -44,6 +44,8 @@ network * importNet(FILE *); // import the net
 float calcAvgWeight(network *); // calculate the average weight of the network
 void connectNeuron(neuron *, neuron *); // connect two neurons
 void disconnectNeuron(neuron *, neuron *); // disconnect two neurons
+void setWeight(neuron *, neuron *, float); // set the weight of a connection
+
 
 typedef struct connection
 {
