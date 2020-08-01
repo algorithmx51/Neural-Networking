@@ -6,7 +6,7 @@ No current tasks that I am working on neat.h
 
 # Current Tasks for headless-neat.h
 
-Trying to develop a drawNet function using the terminal
+Trying to develop a drawNet function using the terminal as an output device
 
 --------------------------------------------------------
 
