@@ -63,6 +63,7 @@ int main(void){ // Main function
     printNet(Net_Copy, 1);
 
     // Now lets export the Net_copy to a file called 'Net_Copy.bin'
+    // Note : you have to reset the network to its first state of connections in order to export it ( not the weights, but the connections )
     FILE *net_copy_file = fopen("Net_Copy.bin", "wb");
     exportNet(Net_Copy, net_copy_file);
 
