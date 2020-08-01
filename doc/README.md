@@ -18,5 +18,3 @@ Note : Tested on : Windows 10
 -------------------------------------------------------------
 
 Copyright (c) : Algorithm X
-
-Latest commit : 31/07/2020
