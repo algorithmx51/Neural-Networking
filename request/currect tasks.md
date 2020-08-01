@@ -2,6 +2,8 @@
 
 * Trying to fix the importNet and exportNet algorthm, because if the Network has a disconnected Neuron, everything breaks down
 
+--------------------------------------------------------
+
 # Current Tasks for neat.h
 
 * No current tasks that I am working on neat.h
