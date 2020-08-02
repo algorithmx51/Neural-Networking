@@ -481,6 +481,9 @@ int main(void) /// MAIN
             sprintf(buffer, "Average weight of the best network : %f", calcAvgWeight(brain[index]));
             setcolor(RGB(255, 165, 0));
             outtextxy(10, 30, buffer);
+            sprintf(buffer, "At Generation %d", gen);
+            setcolor(RGB(0,75,255));
+            outtextxy(10, 50, buffer);
 
             page = 1 - page; // we change the page
         }
