@@ -387,7 +387,7 @@ int main(void) /// MAIN
     float BEST = 0; // the BEST score
     char ch; // a char variable to handle user input
 
-    unsigned long int s_time, e_time;  // start and end time
+    unsigned long int current_time, start_time;
 
     while(1)
     {
@@ -402,16 +402,23 @@ int main(void) /// MAIN
             p[i].init(getmaxx() + i * (800 / pipes), rand() % (getmaxy() - 230), rand() % 100 + 120);
         }
 
+        start_time = clock();
 
         while(!dead)
         {
             setactivepage(page); // swapbuffers implementation
             setvisualpage(1 - page);
 
-            if(e_time - s_time < 7) // delay up to 7 msec
-                delay(e_time - s_time);
+            current_time = clock();
 
-            s_time = clock();
+            if(current_time - start_time < 13) // limit at 13 msec.
+            {
+                delay(current_time - start_time);
+                start_time = current_time;
+            }
+            else
+                start_time = current_time;
+
 
             BEST = 0; // initialize every round the best score
 
@@ -476,8 +483,6 @@ int main(void) /// MAIN
             outtextxy(10, 30, buffer);
 
             page = 1 - page; // we change the page
-
-            e_time = clock();
         }
 
         /// Our birds died
