@@ -3,7 +3,7 @@
   * In this example file is the code of how to create a simple neural network, set the input, feedforward it and get a final output.
   * Good luck.
   *
-  * (This example is based on the v1.0 of the neat.h library) - (c) Algorithm X, 1/08/2020
+  * (This example is based on the v1.1 of the neat.h library) - (c) Algorithm X, 1/08/2020
   **/
 
 
