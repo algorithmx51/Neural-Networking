@@ -2,7 +2,7 @@
   *
   * Official Copy of NEAT.h library
   * Copywrite (c) Algorithm X, Greece
-  * Current version : v1.0
+  * Current version : v1.1
   *
   *
   **/
