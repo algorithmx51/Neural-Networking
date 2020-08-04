@@ -1,13 +1,14 @@
 /**
   *
-  * Official Copy of NEAT2.h library
+  * Official Copy of NEAT.h library
   * Copywrite (c) Algorithm X, Greece
   * Current version : v1.0
   *
+  *
   **/
 
-#ifndef NEAT2_H
-#define NEAT2_H
+#ifndef HEADLESS_NEAT_H
+#define HEADLESS_NEAT_H
 
 #include<stdio.h>
 #include<stdlib.h>
@@ -39,8 +40,8 @@ void printNet(network*, int); // print the net
 float randomfloat(void); // generate a random float
 void setNet(network*, float[]); // set the input for the net
 int sum(int*, int); // calculate the sum of an array
-void exportNet(network *, FILE *); // export the net
-network * importNet(FILE *); // import the net
+void exportNet(network *, char *); // export the net
+network * importNet(char *); // import the net
 float calcAvgWeight(network *); // calculate the average weight of the network
 void connectNeuron(neuron *, neuron *); // connect two neurons
 void disconnectNeuron(neuron *, neuron *); // disconnect two neurons
@@ -53,7 +54,7 @@ typedef struct connection
     neuron *n; // a pointer to the neuron connected
     float weight; // the weight of the connection
 
-}connection;
+} connection;
 
 
 class neuron
@@ -65,6 +66,9 @@ public:
     int num_connections; // the number of connections
     float sum; // the sum of the input
     float output ; // the calculated output
+
+    int l; // the coords of the neuron on the network
+    int n;
 
 };
 
@@ -177,6 +181,9 @@ network *confNet(int _layers, int _nmap[])
         {
             Net->l[i].n[j].connect = (connection *) malloc ( sizeof( connection ) * sum(Net->nmap, i) ); // up to : sum(Net->nmap, i)
 
+            Net->l[i].n[j].l = i;
+            Net->l[i].n[j].n = j;
+
             for(int ii = 0, k = 0 ; ii < i && k < sum(Net->nmap, i); ii++)
             {
                 for(int jj = 0; jj < Net->nmap[ii] && k < sum(Net->nmap, i); jj++, k++)
@@ -241,61 +248,63 @@ void feedforward(network *Net)
 void printNet(network *Net, int detailed)
 {
 
-    if(detailed) printf("----------------------------------------\n");
+    if(detailed)
+        fprintf(stdout, "----------------------------------------\n");
 
     if(detailed)
     {
 
-        printf("In Net 0x%x\n", Net);
+        fprintf(stdout, "In Net 0x%x\n", Net);
 
         for(int j = 0; j < Net->nmap[0]; j++)
         {
-            printf("Net->l[0].n[%d].output = %f\n", j, Net->l[0].n[j].output);
-            printf("Net->l[0].n[%d].number of connections = 1\n", j);
-            printf("Net->l[0].n[%d].connect[0].weight = 1\n", j);
+            fprintf(stdout, "Net->l[0].n[%d].output = %f\n", j, Net->l[0].n[j].output);
+            fprintf(stdout, "Net->l[0].n[%d].number of connections = 1\n", j);
+            fprintf(stdout, "Net->l[0].n[%d].connect[0].weight = 1\n", j);
         }
 
         for(int i = 1 ; i < Net->layers-1; i++)
         {
-            printf("----------------------------------------\n");
+            fprintf(stdout, "----------------------------------------\n");
 
             for(int j = 0; j < Net->nmap[i]; j++)
             {
-                printf("Net->l[%d].n[%d].sum = %f\n", i, j, Net->l[i].n[j].sum);
-                printf("Net->l[%d].n[%d].output = %f\n", i, j, Net->l[i].n[j].output);
-                printf("Net->l[%d].n[%d].number of connections = %d\n", i, j, Net->l[i].n[j].num_connections);
+                fprintf(stdout, "Net->l[%d].n[%d].sum = %f\n", i, j, Net->l[i].n[j].sum);
+                fprintf(stdout, "Net->l[%d].n[%d].output = %f\n", i, j, Net->l[i].n[j].output);
+                fprintf(stdout, "Net->l[%d].n[%d].number of connections = %d\n", i, j, Net->l[i].n[j].num_connections);
 
                 for(int k = 0; k < Net->l[i].n[j].num_connections; k++)
                 {
-                    printf("Net->l[%d].n[%d].connect[%d].weight = %f\n", i, j, k, Net->l[i].n[j].connect[k].weight);
-                /*    printf("Net->l[%d].n[%d].connect[%d].n->sum = %f\n", i, j, k, Net->l[i].n[j].connect[k].n->sum); */
-                    printf("Net->l[%d].n[%d].connect[%d].n->output = %f\n", i, j, k, Net->l[i].n[j].connect[k].n->output);
+                    fprintf(stdout, "Net->l[%d].n[%d].connect[%d].weight = %f\n", i, j, k, Net->l[i].n[j].connect[k].weight);
+                    /*    fprintf(stdout, "Net->l[%d].n[%d].connect[%d].n->sum = %f\n", i, j, k, Net->l[i].n[j].connect[k].n->sum); */
+                    fprintf(stdout,"Net->l[%d].n[%d].connect[%d].n->output = %f\n", i, j, k, Net->l[i].n[j].connect[k].n->output);
                 }
             }
         }
     }
 
-    printf("----------------------------------------\n");
+    fprintf(stdout, "----------------------------------------\n");
 
-    if(!detailed) printf("In Net 0x%x\n", Net);
+    if(!detailed)
+        fprintf(stdout, "In Net 0x%x\n", Net);
 
     for(int i = 0; i < Net->nmap[Net->layers-1]; i++)
     {
-        printf("Net->l[%d].n[%d].sum = %f\n", Net->layers-1, i, Net->l[Net->layers-1].n[i].sum);
-        printf("Net->l[%d].n[%d].output = %f\n", Net->layers-1, i, Net->l[Net->layers-1].n[i].output);
+        fprintf(stdout, "Net->l[%d].n[%d].sum = %f\n", Net->layers-1, i, Net->l[Net->layers-1].n[i].sum);
+        fprintf(stdout, "Net->l[%d].n[%d].output = %f\n", Net->layers-1, i, Net->l[Net->layers-1].n[i].output);
 
-        printf("Net->l[%d].n[%d].number of connections = %d\n", Net->layers-1, i, Net->l[Net->layers-1].n[i].num_connections);
+        fprintf(stdout, "Net->l[%d].n[%d].number of connections = %d\n", Net->layers-1, i, Net->l[Net->layers-1].n[i].num_connections);
 
         for(int k = 0; k < Net->l[Net->layers-1].n[i].num_connections; k++)
         {
-            printf("Net->l[%d].n[%d].connect[%d].weight = %f\n", Net->layers-1, i, k, Net->l[Net->layers-1].n[i].connect[k].weight);
-        /*    printf("Net->l[%d].n[%d].connect[%d].n->sum = %f\n", Net->layers-1, i, k, Net->l[Net->layers-1].n[i].connect[k].n->sum); */
-            printf("Net->l[%d].n[%d].connect[%d].n->output = %f\n", Net->layers-1, i, k, Net->l[Net->layers-1].n[i].connect[k].n->output);
+            fprintf(stdout, "Net->l[%d].n[%d].connect[%d].weight = %f\n", Net->layers-1, i, k, Net->l[Net->layers-1].n[i].connect[k].weight);
+            /*    printf("Net->l[%d].n[%d].connect[%d].n->sum = %f\n", Net->layers-1, i, k, Net->l[Net->layers-1].n[i].connect[k].n->sum); */
+            fprintf(stdout, "Net->l[%d].n[%d].connect[%d].n->output = %f\n", Net->layers-1, i, k, Net->l[Net->layers-1].n[i].connect[k].n->output);
         }
     }
 
 
-    printf("----------------------------------------\n");
+    fprintf(stdout, "----------------------------------------\n");
 }
 
 /// =======================================================================================================
@@ -305,7 +314,7 @@ void setNet(network *Net, float INP[])
 
     for(int i = 0; i < Net->nmap[0]; i++)
     {
-        Net->l[0].n[i].output = INP[i]; // since there is no previous layers, we store the input as an output
+        Net->l[0].n[i].output = INP[i]; // since there are no previous layers, we store the input as an output
     }
 
 }
@@ -339,7 +348,7 @@ void mutateNet(network *Net, int degree, int percent)
     else if(degree == 1)  // Total Mutation
     {
 
-        for(int i = 1; i < Net->layers; i++) // Begin from the 1st layer
+        for(int i = 1; i < Net->layers; i++) // Begin from the 2nd layer
         {
             for(int j = 0; j < Net->nmap[i]; j++)
             {
@@ -391,122 +400,188 @@ network *copyNet(network *Net)
     Net2 = confNet(Net->layers, Net->nmap); // create a new empty net
 
     for(int i = 1; i < Net2->layers; i++)
-    {
         for(int j = 0; j < Net2->nmap[i]; j++)
+            for(int k = Net2->l[i].n[j].num_connections - 1; k >= 0; k--)
+               disconnectNeuron(Net2->l[i].n[j].connect[k].n, getneuronP(Net2, i, j));
+
+
+    for(int i = 0; i < Net->layers; i++)
+    {
+        for(int j = 0; j < Net->nmap[i]; j++)
         {
-            for(int k = 0; k < Net2->l[i].n[j].num_connections; k++)
+            for(int k = 0; k < Net->l[i].n[j].num_connections; k++)
             {
-                Net2->l[i].n[j].connect[k].weight = Net->l[i].n[j].connect[k].weight;
+                connectNeuron(getneuronP(Net2, Net->l[i].n[j].connect[k].n->l, Net->l[i].n[j].connect[k].n->n), getneuronP(Net2, i, j));
+                setWeight(getneuronP(Net2, Net->l[i].n[j].connect[k].n->l, Net->l[i].n[j].connect[k].n->n), getneuronP(Net2, i, j), Net->l[i].n[j].connect[k].weight);
             }
         }
     }
+
 
     return Net2;
 }
 
 /// =======================================================================================================
 
-void exportNet(network *Net, FILE *file)
+void exportNet (network *Net, char *filename)
 {
+    FILE *file = fopen(filename, "wb");
+
     if(file == NULL)
     {
-        printf("Error, file not open !\n");
+        printf("\nfopen failed to open file '%s'\n", filename);
         return ;
     }
 
-    int s = 0;
+
+    float *data; // the output data
+    unsigned int size = 1 + 1 + Net->layers;
+
+    unsigned int index;
+
+    // So we need 1 float for the size, 1 float for the layers, n floats for the nmap ( n = number of layers ). (example : |120| |3| |3 2 1| )
+    // Each neuron allocates : 2 floats for the coords, 1 float for the number of connections, n x ( 2 floats for the coords of the connected neuron + 1 float for the weight of the connection - n = number of connections ). example : |0 0| |2| |1 0| |0.5| |1 1| |-0.7|
+    // size(1) + layers(1) + nmap(layers) + sum(nmap, layers) x [ neuron(2) + connections(1) + connections x [ neuron connected (2) + weight (1) ]  ] = final size
+
+    // I think it would be easier if we just counted the floats we need ( if anyone finds a formula, I REALLY want to see how it works )
+
+
+    for(int i = 0; i < Net->layers; i++)
+        for(int j = 0; j < Net->nmap[i]; j++)
+        {
+            size += (3 + 3 * Net->l[i].n[j].num_connections);
+        }
+
+
+    data  = (float *) malloc(size * sizeof (float)); // type-casting float* to avoid compiler warnings
+
+
+    data[0] = size-1;
+    data[1] = Net->layers;
+
+
+    for(index = 2; index < Net->layers + 2; index++)
+        data[index] = Net->nmap[index-2];
 
     for(int i = 0; i < Net->layers; i++)
     {
         for(int j = 0; j < Net->nmap[i]; j++)
         {
-            for(int k = 0; k < Net->l[i].n[j].num_connections; k++, s++)
+            data[index] = i;
+            data[index+1] = j;
+            data[index+2] = Net->l[i].n[j].num_connections;
+
+            index += 3;
+
+            for(int k = 0; k < Net->l[i].n[j].num_connections; k++)
             {
-                ; // count the number of connections
+                data[index] = Net->l[i].n[j].connect[k].n->l;
+                data[index+1] = Net->l[i].n[j].connect[k].n->n;
+
+                data[index+2] = Net->l[i].n[j].connect[k].weight;
+
+                index += 3;
             }
         }
     }
 
-    float *array;
 
-    array =(float *) malloc ( sizeof(float) * (s + Net->layers + 2));
+    if(index != size)
+        fprintf(stdout, "WARNING : index != size\n");
 
-    array[0] = (float) sizeof(float) * (s + Net->layers + 1);
-    array[1] =(float) Net->layers;
-
-    s = 2;
-
-    for(int i = 0; i < Net->layers; i++, s++)
-        array[s] =(float) Net->nmap[i];
-
-    for(int i = 0; i < Net->layers; i++)
-    {
-        for(int j = 0; j < Net->nmap[i]; j++)
-        {
-            for(int k = 0; k < Net->l[i].n[j].num_connections; k++, s++)
-            {
-                array[s] = Net->l[i].n[j].connect[k].weight;
-            }
-        }
-    }
-
-    fwrite(array, sizeof(float) * (s), 1, file);
+    fseek(file, 0, 0);
+    fwrite(data, size * sizeof(float), 1, file);
     fclose(file);
 
 }
 
 /// =======================================================================================================
 
-network *importNet(FILE *file)
+network *importNet (char *filename)
 {
+
+    FILE *file = fopen(filename, "rb");
+
     if(file == NULL)
     {
-        printf("Error, file not open !\n");
-        return  (network *) -1;
+        printf("fopen failed to open file '%s'", filename);
+        return  (network *) 0; // Avoid warnings
     }
 
-    fseek(file, 0, 0);
+    // So we have two ways
+    // 1: reconstruct the whole network from scratch -- not going to do that !!
+    // 2 : call confNet, disconnect all neurons and then connect the neurons that are mentioned in the input file -- lets do it
 
-    network *Net;
-    float *p =(float *) malloc(sizeof(float));
-    float *array;
+    float *data;
 
-    fread(p, sizeof(float), 1, file);
-    array =(float *) malloc (*p);
+    float size;
+    unsigned int index = 1;
 
-    fread(array, *p, 1, file);
+    fread(&size, sizeof(float), 1, file);
+    data = (float *) malloc(size * ( sizeof(float) ) ); // Avoid warnings
 
-    int s = 1;
-    int *nmap = (int *) malloc ( sizeof (int) * array[0]);
 
-    for(int i = 0; i < array[0]; i++, s++)
-        nmap[i] = array[s];
+    fread(data, size * sizeof (float), 1, file );
 
-    Net = confNet(array[0], nmap);
+    int number_of_layers = data[0];
+    int nmap[number_of_layers];
 
-    for(int i = 1; i < Net->layers; i++)
-    {
+    for(int i = 0 ; i < number_of_layers; i++, index++)
+        nmap[i] = data[index];
+
+    // Now that we have the number of the layers and the network map, we call confNet
+
+    network *Net = confNet(number_of_layers, nmap);
+
+    for(int i = 0; i < Net->layers; i++)
         for(int j = 0; j < Net->nmap[i]; j++)
+            for(int k =  Net->l[i].n[j].num_connections - 1; k >= 0; k--) // follow the crop of the 'connect' list
+                disconnectNeuron(Net->l[i].n[j].connect[k].n, getneuronP(Net, i, j)); // disconnect all the neurons
+
+
+
+    while(index < size)
+    {
+        int number_of_connections = data[index+2];
+
+        if(number_of_connections > 0)  // if the number of connections are > 0
         {
-            for(int k = 0; k < Net->l[i].n[j].num_connections; k++, s++)
+            for(int i = 0; i < number_of_connections; i++)
             {
-                Net->l[i].n[j].connect[k].weight = array[s];
+                int src_l, src_n, dest_l, dest_n;
+                float c_weight;
+
+                src_l = data[index];
+                src_n = data[index+1];
+                dest_l = data[index+3+i*3];
+                dest_n = data[index+3+i*3+1];
+                c_weight = data[index+3+i*3+2];
+
+                connectNeuron(getneuronP(Net, dest_l, dest_n), getneuronP(Net, src_l, src_n));
+                setWeight(getneuronP(Net, dest_l, dest_n), getneuronP(Net, src_l, src_n), c_weight);
             }
         }
+
+        index += number_of_connections * 3 + 3;
+
     }
 
+
+    fclose(file);
     return Net;
+
 }
 
 /// *******************************************************************************************************
 
-void connectNeuron(neuron * src_neuron, neuron * dest_neuron){
+void connectNeuron(neuron * src_neuron, neuron * dest_neuron)
+{
 
     for(int i = 0; i < dest_neuron->num_connections; i++)
         if(dest_neuron->connect[i].n == src_neuron) // if the two neurons are already connected
             return; // abort
 
-    dest_neuron->num_connections++; // We add the neuron the "address book"
+    dest_neuron->num_connections++; // We add the neuron to the "address book"
     connection * connect = (connection *) malloc ( sizeof(connection) * dest_neuron->num_connections ); // allocate memory to process the 'connect' array
 
     memcpy(connect, dest_neuron->connect, sizeof(connection) * (dest_neuron->num_connections-1)); // setup the connection
@@ -524,7 +599,8 @@ void connectNeuron(neuron * src_neuron, neuron * dest_neuron){
 
 /// *******************************************************************************************************
 
-void disconnectNeuron(neuron * src_neuron, neuron * dest_neuron) {
+void disconnectNeuron(neuron * src_neuron, neuron * dest_neuron)
+{
 
     int index = -1;
 
@@ -542,7 +618,7 @@ void disconnectNeuron(neuron * src_neuron, neuron * dest_neuron) {
     dest_neuron->num_connections--;
     connection *connect = (connection *) malloc ( sizeof ( connection ) * dest_neuron->num_connections );
 
-    memcpy( connect, dest_neuron->connect, index * sizeof(connection)); // setup the new connect array
+    memcpy( connect, dest_neuron->connect, index * sizeof(connection)); // setup the new connect array - crop the disconnected neuron
     memcpy( connect + index, dest_neuron->connect + index + 1, (dest_neuron->num_connections-index) * sizeof(connection));
 
     free(dest_neuron->connect);
@@ -557,7 +633,8 @@ void disconnectNeuron(neuron * src_neuron, neuron * dest_neuron) {
 
 /// *******************************************************************************************************
 
-void setWeight(neuron * src_neuron, neuron * dest_neuron, float weight){
+void setWeight(neuron * src_neuron, neuron * dest_neuron, float weight)
+{
 
     int index = -1;
 
@@ -577,4 +654,4 @@ void setWeight(neuron * src_neuron, neuron * dest_neuron, float weight){
     return;
 }
 
-#endif // NEAT2_H
+#endif // HEADLESS_NEAT_H
