@@ -1,4 +1,9 @@
-# CHANGE LOG - 31/07/2020
+# CHANGE LOG - 04/08/2020
+
+## v1.0 -> v1.1
+
+* Fixed functions importNet(), exportNet() and copyNet(), so the support the connectNeuron and disconnectNeuron functions
+* Updated the documentation of the repository
 
 ## v0.0 -> v1.0
 
