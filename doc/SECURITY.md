@@ -2,7 +2,7 @@
 
 ## Supported Versions
 
-v1.0 - 31/07/2020
+v1.1 - 04/08/2020
 
 ## Reporting a Vulnerability
 
