@@ -5,7 +5,7 @@
   * How to use : connectNeuron, disconnectNeuron, setWeight, mutateNet, importNet, exportNet, copyNet
   * Good luck.
   *
-  * (This example is based on the v1.0 of the neat.h library) - (c) Algorithm X, 1/08/2020
+  * (This example is based on the v1.1 of the neat.h library) - (c) Algorithm X, 1/08/2020
   **/
 
 
@@ -63,14 +63,11 @@ int main(void){ // Main function
     printNet(Net_Copy, 1);
 
     // Now lets export the Net_copy to a file called 'Net_Copy.bin'
-    // Note : you have to reset the network to its first state of connections in order to export it ( not the weights, but the connections )
-    FILE *net_copy_file = fopen("Net_Copy.bin", "wb");
-    exportNet(Net_Copy, net_copy_file);
+    exportNet(Net_Copy, "Net_Copy.bin");
 
     // And import it again
 
-    net_copy_file = fopen("Net_Copy.bin", "rb");
-    network *Copy_of_Net_Copy = importNet(net_copy_file);
+    network *Copy_of_Net_Copy = importNet("Net_Copy.bin");
 
     printNet(Copy_of_Net_Copy, 1);
 
