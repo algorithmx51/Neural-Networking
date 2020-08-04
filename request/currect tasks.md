@@ -1,6 +1,6 @@
 # Current Tasks for both libraries
 
-* Trying to fix the importNet and exportNet algorthm, because if the Network has a disconnected Neuron, everything breaks down
+* No current tasks that I am working on both libraries
 
 --------------------------------------------------------
 
