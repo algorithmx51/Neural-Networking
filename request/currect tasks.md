@@ -6,7 +6,7 @@
 
 # Current Tasks for neat.h
 
-* No current tasks that I am working on neat.h
+* Trying to fix drawNet() function to support disconnected Neurons
 
 --------------------------------------------------------
 
