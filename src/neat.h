@@ -454,28 +454,22 @@ void drawNet(network *Net, int window, int d)
 
     int maxx = getmaxx(), maxy = getmaxy();
 
-    for(int i = 0; i < Net->layers; i++)
+    for(int i = 1; i < Net->layers; i++)
     {
         for(int j = 0; j < Net->nmap[i]; j++)
         {
-            for(int ii = 0, k = 0; ii < i && k < Net->l[i].n[j].num_connections; ii++)
+            for(int k = 0; k < Net->l[i].n[j].num_connections; k++)
             {
-                for(int jj = 0; jj < Net->nmap[ii] && k < Net->l[i].n[j].num_connections; jj++, k++)
-                {
                     if(Net->l[i].n[j].connect[k].weight > 0)
-                        setcolor(RED);
+                        setcolor(RGB(255, 0, 0));
                     else
-                        setcolor(BLUE);
+                        setcolor(RGB(0, 0, 255));
 
                     setlinestyle( SOLID_LINE, 0, abs(Net->l[i].n[j].connect[k].weight * 9)); // set the thickness of the line
 
-                    line( (ii+1) * (maxx / (Net->layers+1)) + 25 + 1, (jj+1) * (maxy / (Net->nmap[ii] + 1)), (i+1) * (maxx / (Net->layers+1)) - 25 - 1, (j+1) * (maxy / (Net->nmap[i] + 1)));
-                    //  sprintf(buffer, "%f", Net->l[i].n[j].connect[k].weight);
-                    //  outtextxy( ( ( ( ii+1 ) * (maxx / (Net->layers+1)) + 25 ) + ( (i+1) * (maxx / (Net->layers+1)) - 25) ) / 2, ( ( (jj+1) * (maxy / (Net->nmap[ii] + 1))) + ( (j+1) * (maxy / (Net->nmap[i] + 1) ) ) ) / 2 - 20, buffer);
+                    line((Net->l[i].n[j].connect[k].n->l+1) * (maxx / (Net->layers + 1)) + 25 + 1, (Net->l[i].n[j].connect[k].n->n+1) * (maxy / (Net->nmap[Net->l[i].n[j].connect[k].n->l] + 1)), (i+1) *  (maxx / (Net->layers+1)) - 25 - 1, (j+1) * (maxy / (Net->nmap[i] + 1)));
 
                     setlinestyle(SOLID_LINE, 0, 1);
-
-                }
             }
         }
 
