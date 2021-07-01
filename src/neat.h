@@ -590,7 +590,7 @@ void exportNet (network *Net, char *filename)
     // Each neuron allocates : 2 floats for the coords, 1 float for the number of connections, n x ( 2 floats for the coords of the connected neuron + 1 float for the weight of the connection - n = number of connections ). example : |0 0| |2| |1 0| |0.5| |1 1| |-0.7|
     // size(1) + layers(1) + nmap(layers) + sum(nmap, layers) x [ neuron(2) + connections(1) + connections x [ neuron connected (2) + weight (1) ]  ] = final size
 
-    // I think it would be easier if we just counted the floats we need ( if anyone finds a formula, I REALLY want to see how it works )
+    // I think it would be easier if we just counted the floats we need
 
 
     for(int i = 0; i < Net->layers; i++)
