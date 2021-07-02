@@ -8,7 +8,7 @@
 #define speed -3 // the speed of the birds
 #define pipes 4 // the number of the pipes
 #define SIZE_OF_PIPE 40 // the size of the pipes
-#define POPULATION 15 // the number of the birds on each generation
+#define POPULATION 50 // the number of the birds on each generation
 
 class Bird; // define the class Bird
 class Pipe; // define the class Pipe
@@ -141,7 +141,7 @@ void Bird::control(char ch) // handle the controls of the bird - OLD used by the
     {
 
     case ' ':
-        this->vel_y += 5; // THIS is really hard to explain why is really pushing the game to its limits
+        this->vel_y = 5; // THIS is really hard to explain why is really pushing the game to its limits
         break;
     default:
         break;
@@ -387,8 +387,6 @@ int main(void) /// MAIN
     float BEST = 0; // the BEST score
     char ch; // a char variable to handle user input
 
-    double s_time = 0, e_time = 0;  // start and end time
-
     while(1)
     {
 
@@ -399,18 +397,13 @@ int main(void) /// MAIN
 
         for(int i = 0; i < pipes; i++) // render the pipes
         {
-            p[i].init(getmaxx() + i * (getmaxx() / pipes) - 450, rand() % (getmaxy() - 230) + 60, rand() % 61 + 60);
+            p[i].init(getmaxx() + i * (getmaxx() / pipes) - 450, rand() % (getmaxy() - 230) + 80, rand() % 61 + 100);
         }
 
         while(!dead)
         {
             setactivepage(page); // swapbuffers implementation
             setvisualpage(1 - page);
-
-            if((e_time - s_time) / 1000 < 2) // delay up to 2 msec
-                delay( 2 - (e_time - s_time) / 1000);
-
-            s_time = clock();
 
             BEST = 0; // initialize every round the best score
 
@@ -433,7 +426,7 @@ int main(void) /// MAIN
             for(int i = 0; i < pipes; i++) // check if a pipe is off the screen and move every pipe
             {
                 if(p[i].x < -SIZE_OF_PIPE)
-                    p[i].init(getmaxx(), rand() % (getmaxy() - 230) + 60, rand() % 61 + 60);
+                    p[i].init(getmaxx(), rand() % (getmaxy() - 230) + 80, rand() % 61 + 100);
 
                 p[i].move();
             }
@@ -482,8 +475,6 @@ int main(void) /// MAIN
             outtextxy(10, 50, buffer);
 
             page = 1 - page; // we change the page
-
-            e_time = clock();
         }
 
         /// Our birds died
