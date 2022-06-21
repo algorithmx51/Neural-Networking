@@ -1,5 +1,4 @@
-# NEAT
-NEAT library writen in C (and some C++)
+# An incomplete implementation of neural networks in C++
 
 In the src (source) directory there are 2 files
 	
@@ -19,4 +18,4 @@ Note : Tested on : Windows 10
 
 Copyright (c) : Algorithm X
 
-## [Read me copied from here](https://github.com/algorithmx51/NEAT/blob/master/doc/README.md)
+## [Read me copied from here]()
