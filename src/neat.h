@@ -380,28 +380,6 @@ void mutateNet(network *Net, int degree, int percent)
         }
 
     }
-    /* else if(degree == 2){ // Total-Net Mutation
-
-         for(int i = 1; i < Net->layers; i++) // Begin from the 2nd layer
-         {
-             for(int j = 0; j < Net->nmap[i]; j++)
-             {
-                 for(int k = 0; k < Net->l[i].n[j].num_connections; k++)
-                 {
-                    if(rand() % 100 - percent < 0)
-                         Net->l[i].n[j].connect[k].weight = randomfloat();
-
-                     if(Net->l[i].n[j].connect[k].weight > 1)
-                         Net->l[i].n[j].connect[k].weight = 1;
-                     else if (Net->l[i].n[j].connect[k].weight < -1)
-                         Net->l[i].n[j].connect[k].weight = -1;
-
-                     insertLayer(Net, rand() % (Net->layers-1) + 1, rand() % 5); // add up to 5 neurons to a random position
-                 }
-             }
-         }
-
-     } */ /// Up to construction
 
 }
 
@@ -698,14 +676,14 @@ network *importNet (char *filename)
                 int src_l, src_n, dest_l, dest_n;
                 float c_weight;
 
-                src_l = data[index];
-                src_n = data[index+1];
-                dest_l = data[index+3+i*3];
-                dest_n = data[index+3+i*3+1];
+                dest_l = data[index];
+                dest_n = data[index+1];
+                src_l = data[index+3+i*3];
+                src_n = data[index+3+i*3+1];
                 c_weight = data[index+3+i*3+2];
 
-                connectNeuron(getneuronP(Net, dest_l, dest_n), getneuronP(Net, src_l, src_n));
-                setWeight(getneuronP(Net, dest_l, dest_n), getneuronP(Net, src_l, src_n), c_weight);
+                connectNeuron(getneuronP(Net, src_l, src_n), getneuronP(Net, dest_l, dest_n));
+                setWeight(getneuronP(Net, src_l, src_n), getneuronP(Net, dest_l, dest_n), c_weight);
             }
         }
 
