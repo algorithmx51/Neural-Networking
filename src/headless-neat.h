@@ -4,7 +4,7 @@
  * Official Copy of NEAT.h library
  * Current version : v1.2
  *
- * Copyright (C) 2020  Algorithm X
+ * Copyright (C) 2022  Algorithm X
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
