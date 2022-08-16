@@ -268,7 +268,7 @@ void printNet(network *Net, int detailed)
     if(detailed)
     {
 
-        fprintf(stdout, "In Net 0x%x\n", Net);
+        fprintf(stdout, "In Net 0x%x\n", (unsigned int)Net);
 
         for(int j = 0; j < Net->nmap[0]; j++)
         {
@@ -300,7 +300,7 @@ void printNet(network *Net, int detailed)
     fprintf(stdout, "----------------------------------------\n");
 
     if(!detailed)
-        fprintf(stdout, "In Net 0x%x\n", Net);
+        fprintf(stdout, "In Net 0x%x\n", (unsigned int)Net);
 
     for(int i = 0; i < Net->nmap[Net->layers-1]; i++)
     {
@@ -585,7 +585,7 @@ void exportNet (network *Net, char *filename)
     data[1] = Net->layers;
 
 
-    for(index = 2; index < Net->layers + 2; index++)
+    for(index = 2; index < (unsigned int) Net->layers + 2; index++)
         data[index] = Net->nmap[index-2];
 
     for(int i = 0; i < Net->layers; i++)
