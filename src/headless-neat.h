@@ -2,7 +2,7 @@
  *
  *
  * Official Copy of NEAT.h library
- * Current version : v1.1
+ * Current version : v1.2
  *
  * Copyright (C) 2020  Algorithm X
  *
