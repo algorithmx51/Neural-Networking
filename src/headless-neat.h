@@ -28,10 +28,6 @@
 #include<string.h>
 #include<math.h>
 
-class neuron;
-class layer;
-class network;
-
 #ifndef linux // if we aren't at a linux system
 
 #include<conio.h>
@@ -43,38 +39,17 @@ class network;
 
 #endif // linux
 
-void calcOutput(network*, int, int); // calculate the output of the neuron defined by the two ints
-network *confNet(int, int[]); // allocate memory for the network
-network *copyNet(network*); // copy the net to a new place
-void feedforward(network*); // feed the net so we have a final output
-neuron *getneuronP(network*, int, int); // get the address in memory a the selected neuron
-void mutateNet(network*, int, int); // mutate the net
-void printNet(network*, int); // print the net
-float randomfloat(void); // generate a random float
-void setNet(network*, float[]); // set the input for the net
-int sum(int*, int); // calculate the sum of an array
-void exportNet(network *, char *); // export the net
-network * importNet(char *); // import the net
-float calcAvgWeight(network *); // calculate the average weight of the network
-void connectNeuron(neuron *, neuron *); // connect two neurons
-void disconnectNeuron(neuron *, neuron *); // disconnect two neurons
-void setWeight(neuron *, neuron *, float); // set the weight of a connection
-
-
 typedef struct connection
 {
 
-    neuron *n; // a pointer to the neuron connected
+    struct neuron *n; // a pointer to the neuron connected
     float weight; // the weight of the connection
 
 } connection;
 
 
-class neuron
+typedef struct neuron
 {
-
-public:
-
     connection *connect; // a list of connections
     int num_connections; // the number of connections
     float sum; // the sum of the input
@@ -83,25 +58,38 @@ public:
     int l; // the coords of the neuron on the network
     int n;
 
-};
+}neuron;
 
-class layer
+typedef struct layer
 {
-
-public:
     neuron *n; // a list of neurons
 
-};
+}layer;
 
-class network
+typedef struct network
 {
-
-public:
     layer *l; // a list of layers
     int *nmap; // network map , how many neurons on each layer
     int layers; // How many layers
 
-};
+}network;
+
+void calcOutput(struct network*, int, int); // calculate the output of the neuron defined by the two ints
+struct network *confNet(int, int[]); // allocate memory for the network
+struct network *copyNet(struct network*); // copy the net to a new place
+void feedforward(struct network*); // feed the net so we have a final output
+struct neuron *getneuronP(struct network*, int, int); // get the address in memory a the selected neuron
+void mutateNet(struct network*, int, int); // mutate the net
+void printNet(struct network*, int); // print the net
+float randomfloat(void); // generate a random float
+void setNet(struct network*, float[]); // set the input for the net
+int sum(int*, int); // calculate the sum of an array
+void exportNet(struct network *, char *); // export the net
+struct network * importNet(char *); // import the net
+float calcAvgWeight(struct network *); // calculate the average weight of the network
+void connectNeuron(struct neuron *, struct neuron *); // connect two neurons
+void disconnectNeuron(struct neuron *, struct neuron *); // disconnect two neurons
+void setWeight(struct neuron *, struct neuron *, float); // set the weight of a connection
 
 /// *****************************************************************************************************
 /// Utility functions -----------------------------------------------------------------------------------
@@ -120,7 +108,7 @@ int sum ( int *array, int size )
 
 /// ========================================================================================
 
-neuron * getneuronP(network *Net, int L, int N)
+struct neuron * getneuronP(network *Net, int L, int N)
 {
 
     return &(Net->l[L].n[N]);
@@ -170,7 +158,7 @@ float calcAvgWeight(network *Net)
 /// *****************************************************************************************************
 /// Network Functions -----------------------------------------------------------------------------------
 
-network *confNet(int _layers, int _nmap[])
+struct network *confNet(int _layers, int _nmap[])
 {
     network *Net;
 
@@ -222,7 +210,7 @@ network *confNet(int _layers, int _nmap[])
 
 /// =======================================================================================================
 
-void calcOutput(network *Net, int L, int N)
+void calcOutput(struct network *Net, int L, int N)
 {
 
     float s = 0;
@@ -243,7 +231,7 @@ void calcOutput(network *Net, int L, int N)
 
 /// =======================================================================================================
 
-void feedforward(network *Net)
+void feedforward(struct network *Net)
 {
 
     for(int i = 1; i < Net->layers; i++)
@@ -258,7 +246,7 @@ void feedforward(network *Net)
 
 /// =======================================================================================================
 
-void printNet(network *Net, int detailed)
+void printNet(struct network *Net, int detailed)
 {
 
     if(detailed)
@@ -322,7 +310,7 @@ void printNet(network *Net, int detailed)
 
 /// =======================================================================================================
 
-void setNet(network *Net, float INP[])
+void setNet(struct network *Net, float INP[])
 {
 
     for(int i = 0; i < Net->nmap[0]; i++)
@@ -334,7 +322,7 @@ void setNet(network *Net, float INP[])
 
 /// =======================================================================================================
 
-void mutateNet(network *Net, int degree, int percent)
+void mutateNet(struct network *Net, int degree, int percent)
 {
 
     if(degree == 0)  // Simple Mutation
@@ -379,34 +367,12 @@ void mutateNet(network *Net, int degree, int percent)
         }
 
     }
-    /* else if(degree == 2){ // Total-Net Mutation
-
-         for(int i = 1; i < Net->layers; i++) // Begin from the 2nd layer
-         {
-             for(int j = 0; j < Net->nmap[i]; j++)
-             {
-                 for(int k = 0; k < Net->l[i].n[j].num_connections; k++)
-                 {
-                    if(rand() % 100 - percent < 0)
-                         Net->l[i].n[j].connect[k].weight = randomfloat();
-
-                     if(Net->l[i].n[j].connect[k].weight > 1)
-                         Net->l[i].n[j].connect[k].weight = 1;
-                     else if (Net->l[i].n[j].connect[k].weight < -1)
-                         Net->l[i].n[j].connect[k].weight = -1;
-
-                     insertLayer(Net, rand() % (Net->layers-1) + 1, rand() % 5); // add up to 5 neurons to a random position
-                 }
-             }
-         }
-
-     } */ /// Up to construction
 
 }
 
 /// =======================================================================================================
 
-network *copyNet(network *Net)
+struct network *copyNet(struct network *Net)
 {
     network *Net2;
 
@@ -436,7 +402,7 @@ network *copyNet(network *Net)
 
 /// =======================================================================================================
 
-void exportNet (network *Net, char *filename)
+void exportNet (struct network *Net, char *filename)
 {
     FILE *file = fopen(filename, "wb");
 
@@ -510,7 +476,7 @@ void exportNet (network *Net, char *filename)
 
 /// =======================================================================================================
 
-network *importNet (char *filename)
+struct network *importNet (char *filename)
 {
 
     FILE *file = fopen(filename, "rb");
@@ -564,14 +530,14 @@ network *importNet (char *filename)
                 int src_l, src_n, dest_l, dest_n;
                 float c_weight;
 
-                src_l = data[index];
-                src_n = data[index+1];
-                dest_l = data[index+3+i*3];
-                dest_n = data[index+3+i*3+1];
+                dest_l = data[index];
+                dest_n = data[index+1];
+                src_l = data[index+3+i*3];
+                src_n = data[index+3+i*3+1];
                 c_weight = data[index+3+i*3+2];
 
-                connectNeuron(getneuronP(Net, dest_l, dest_n), getneuronP(Net, src_l, src_n));
-                setWeight(getneuronP(Net, dest_l, dest_n), getneuronP(Net, src_l, src_n), c_weight);
+                connectNeuron(getneuronP(Net, src_l, src_n), getneuronP(Net, dest_l, dest_n));
+                setWeight(getneuronP(Net, src_l, src_n), getneuronP(Net, dest_l, dest_n), c_weight);
             }
         }
 
@@ -587,7 +553,7 @@ network *importNet (char *filename)
 
 /// *******************************************************************************************************
 
-void connectNeuron(neuron * src_neuron, neuron * dest_neuron)
+void connectNeuron(struct neuron * src_neuron, struct neuron * dest_neuron)
 {
 
     for(int i = 0; i < dest_neuron->num_connections; i++)
@@ -612,7 +578,7 @@ void connectNeuron(neuron * src_neuron, neuron * dest_neuron)
 
 /// *******************************************************************************************************
 
-void disconnectNeuron(neuron * src_neuron, neuron * dest_neuron)
+void disconnectNeuron(struct neuron * src_neuron, struct neuron * dest_neuron)
 {
 
     int index = -1;
@@ -646,7 +612,7 @@ void disconnectNeuron(neuron * src_neuron, neuron * dest_neuron)
 
 /// *******************************************************************************************************
 
-void setWeight(neuron * src_neuron, neuron * dest_neuron, float weight)
+void setWeight(struct neuron * src_neuron, struct neuron * dest_neuron, float weight)
 {
 
     int index = -1;
@@ -668,3 +634,4 @@ void setWeight(neuron * src_neuron, neuron * dest_neuron, float weight)
 }
 
 #endif // HEADLESS_NEAT_H
+
